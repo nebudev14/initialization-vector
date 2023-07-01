@@ -2,8 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import {
   createTRPCRouter,
-  authProcedure,
-  teacherProcedure,
+  authProcedure
 } from "~/server/api/trpc";
 
 export const challengeRouter = createTRPCRouter({
