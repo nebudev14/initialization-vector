@@ -11,7 +11,7 @@ import { initTRPC, TRPCError } from "@trpc/server";
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import { type Session } from "next-auth";
 import superjson from "superjson";
-import { ZodError } from "zod";
+import { z, ZodError } from "zod";
 import { getServerAuthSession } from "~/server/auth";
 import { prisma } from "~/server/db";
 
@@ -107,6 +107,11 @@ export const createTRPCRouter = t.router;
 export const publicProcedure = t.procedure;
 
 /** Reusable middleware that enforces users are logged in before running the procedure. */
+
+const entityId = z.object({
+  entityId: z.string().cuid(),
+});
+
 const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
@@ -118,6 +123,14 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
     },
   });
 });
+
+const isTeacher = t.middleware(({ ctx, rawInput, next }) => {
+  const result = entityId.safeParse(rawInput);
+  if(!result.success) throw new TRPCError({ code: "BAD_REQUEST" });
+
+  const fetchedResult = await prism
+
+})
 
 /**
  * Protected (authenticated) procedure
