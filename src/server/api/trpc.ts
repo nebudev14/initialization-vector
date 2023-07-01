@@ -7,6 +7,7 @@
  * need to use are documented accordingly near the end.
  */
 
+import { UserType } from "@prisma/client";
 import { initTRPC, TRPCError } from "@trpc/server";
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import { type Session } from "next-auth";
@@ -124,11 +125,23 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
   });
 });
 
-const isTeacher = t.middleware(({ ctx, rawInput, next }) => {
+// Check if request is by a teacher
+export const isTeacher = t.middleware(async ({ ctx, rawInput, next }) => {
   const result = entityId.safeParse(rawInput);
-  if(!result.success) throw new TRPCError({ code: "BAD_REQUEST" });
+  if (!result.success) throw new TRPCError({ code: "BAD_REQUEST" });
 
-  const fetchedResult = await prism
+  const fetchedUser = await ctx.prisma.user.findUnique({
+    where: { id: ctx.session?.user.id as string }
+  });
+
+  if (!fetchedUser || fetchedUser.userType !== UserType.TEACHER) {
+    throw new TRPCError({
+      message: "You are not a teacher",
+      code: "FORBIDDEN"
+    });
+  }
+
+  return next({ ctx: { result: fetchedUser } });
 
 })
 
