@@ -8,10 +8,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-  // Further reading:
-  // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-  // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
   url      = env("DATABASE_URL")
 }
 
@@ -22,12 +18,12 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? // @db.Text
-  access_token      String? // @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? // @db.Text
+  id_token          String?
   session_state     String?
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -65,8 +61,9 @@ model VerificationToken {
 model UserChallenge {
   userId      String
   challengeId String
-  user        User      @relation(fields: [userId], references: [id])
-  challenge   Challenge @relation(fields: [challengeId], references: [id])
+  user        User            @relation(fields: [userId], references: [id])
+  challenge   Challenge       @relation(fields: [challengeId], references: [id])
+  status      ChallengeStatus
 
   @@id([userId, challengeId])
 }
@@ -76,6 +73,11 @@ model Challenge {
   name  String
   flag  String          @unique
   users UserChallenge[]
+}
+
+enum ChallengeStatus {
+  COMPLETED
+  UNCOMPLETE
 }
 
 enum UserType {
