@@ -47,12 +47,11 @@ export const createTRPCRouter = t.router;
 
 export const publicProcedure = t.procedure;
 
-/** Reusable middleware that enforces users are logged in before running the procedure. */
-
-const entityId = z.object({
+export const entityId = z.object({
   entityId: z.string().cuid(),
 });
 
+/** Reusable middleware that enforces users are logged in before running the procedure. */
 const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
@@ -85,4 +84,5 @@ export const isTeacher = t.middleware(async ({ ctx, rawInput, next }) => {
 
 })
 
-export const protectedProcedure = t.procedure.use(enforceUserIsAuthed);
+export const authProcedure = t.procedure.use(enforceUserIsAuthed);
+export const teacherProcedure = authProcedure.use(isTeacher);
