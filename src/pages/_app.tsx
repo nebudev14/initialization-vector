@@ -10,7 +10,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
-      <Component {...pageProps} />
+      <div className="bg-zinc-900 text-white font-inter">
+        <Component {...pageProps} />
+      </div>
     </SessionProvider>
   );
 };
