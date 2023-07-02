@@ -16,6 +16,7 @@ export const teacherRouter = createTRPCRouter({
 
   getStudents: teacherProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.user.findMany({
+      where: { userType: "STUDENT" },
       include: {
         challenges: {
           include: { challenge: true },

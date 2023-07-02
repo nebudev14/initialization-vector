@@ -48,7 +48,7 @@ export const createTRPCRouter = t.router;
 export const publicProcedure = t.procedure;
 
 export const entityId = z.object({
-  entityId: z.string().cuid().optional(),
+  entityId: z.string().cuid(),
 });
 
 /** Reusable middleware that enforces users are logged in before running the procedure. */

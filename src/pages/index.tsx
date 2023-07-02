@@ -13,7 +13,7 @@ export default function Home() {
           <div className="container px-4 mx-auto my-12 md:px-12 ">
             <div className="flex flex-wrap -mx-1 lg:-mx-4 ">
               <div className="w-full px-1 my-1 md:w-1/2 lg:my-4 lg:w-1/3 lg:px-4">
-                <article className="overflow-hidden border shadow-2xl rounded-2xl border-zinc-800 ">
+                <article className="overflow-hidden border shadow-xl rounded-2xl border-zinc-800 ">
                   <h1 className="block w-full h-auto px-4 py-6 text-3xl font-semibold border-b border-yellow-300 bg-slate-900 font-inte pb-36">
                     AES Python
                   </h1>
@@ -26,7 +26,7 @@ export default function Home() {
                     </h1>
                   </header>
 
-                  
+
                 </article>
               </div>
             </div>
