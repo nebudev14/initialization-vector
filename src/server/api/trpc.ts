@@ -11,7 +11,7 @@ type CreateContextOptions = {
   session: Session | null;
 };
 
-const createInnerTRPCContext = (opts: CreateContextOptions) => {
+export const createInnerTRPCContext = (opts: CreateContextOptions) => {
   return {
     session: opts.session,
     prisma,
@@ -48,7 +48,7 @@ export const createTRPCRouter = t.router;
 export const publicProcedure = t.procedure;
 
 export const entityId = z.object({
-  entityId: z.string().cuid(),
+  entityId: z.string().cuid().optional(),
 });
 
 /** Reusable middleware that enforces users are logged in before running the procedure. */
@@ -65,9 +65,7 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
 });
 
 // Check if request is by a teacher
-export const isTeacher = t.middleware(async ({ ctx, rawInput, next }) => {
-  const result = entityId.safeParse(rawInput);
-  if (!result.success) throw new TRPCError({ code: "BAD_REQUEST" });
+export const isTeacher = t.middleware(async ({ ctx, next }) => {
 
   const fetchedUser = await ctx.prisma.user.findUnique({
     where: { id: ctx.session?.user.id as string }
