@@ -47,7 +47,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   challenges    UserChallenge[]
-  userType      UserType
+  userType      UserType        @default(STUDENT)
 }
 
 model VerificationToken {
