@@ -74,6 +74,7 @@ model Challenge {
   flag  String          @unique
   url   String
   users UserChallenge[]
+  tags  String[]
 }
 
 enum ChallengeStatus {
