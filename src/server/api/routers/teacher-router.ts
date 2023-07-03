@@ -3,7 +3,7 @@ import { createTRPCRouter, teacherProcedure } from "~/server/api/trpc";
 
 export const teacherRouter = createTRPCRouter({
   createChallenge: teacherProcedure
-    .input(z.object({ name: z.string(), flag: z.string(), url: z.string() }))
+    .input(z.object({ name: z.string(), desc: z.string().optional(), flag: z.string(), url: z.string() }))
     .mutation(async ({ ctx, input }) => {
       return await ctx.prisma.challenge.create({
         data: {

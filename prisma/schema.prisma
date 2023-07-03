@@ -71,6 +71,7 @@ model UserChallenge {
 model Challenge {
   id    String          @id @default(cuid())
   name  String
+  desc  String?
   flag  String          @unique
   url   String
   users UserChallenge[]
