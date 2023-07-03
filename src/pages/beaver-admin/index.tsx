@@ -21,7 +21,7 @@ export default function AdminPage(
               key={i}
               className={({ selected }) =>
                 selected
-                  ? "border-b-2  py-4 border-yellow-300 px-6 outline-none md:px-2 md:text-sm"
+                  ? "border-b-2 border-yellow-300 px-6 py-4 outline-none md:px-2 md:text-sm"
                   : "px-6 py-2 md:px-2 md:text-sm "
               }
             >
@@ -31,7 +31,35 @@ export default function AdminPage(
         </Tab.List>
         <Tab.Panels className="mt-4">
           <Tab.Panel>
-            <div>ball</div>
+            <div className="px-32 py-8 ">
+              <div className="rounded-2xl bg-zinc-800 px-8 py-4">
+                <h1 className="mb-8 border-b border-zinc-400 px-1 py-4 text-3xl font-bold ">
+                  Create an assignment
+                </h1>
+                <input
+                  className="mb-6 w-full rounded-xl bg-zinc-700 px-4 py-3 text-xl text-zinc-200 outline-none"
+                  autoComplete="off"
+                  placeholder="Lab Name"
+                />
+                <textarea
+                  className="mb-6 w-full rounded-xl bg-zinc-700 px-4 py-3 text-xl text-zinc-200 outline-none"
+                  rows={5}
+                  autoComplete="off"
+                  placeholder="Description..."
+                />
+                <input
+                  className="mb-6 w-full rounded-xl bg-zinc-700 px-3 py-2 text-lg text-zinc-200 outline-none"
+                  autoComplete="off"
+                  placeholder="GitHub ipynb URL"
+                />
+                <input
+                  className="mb-6 w-full rounded-xl bg-zinc-700 px-3 py-2 text-lg text-zinc-200 outline-none"
+                  autoComplete="off"
+                  placeholder="Flag"
+                />
+                <button className="mb-2 rounded-xl py-2 px-3 bg-yellow-300 text-black font-semibold">Create</button>
+              </div>
+            </div>
           </Tab.Panel>
           <Tab.Panel>
             <div>ball 2</div>
