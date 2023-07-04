@@ -18,13 +18,13 @@ export default function Home(
 
   return (
     <>
-      {!session?.user.id ? (
+      {!session?.user ? (
         <UnsignedHome />
       ) : (
         <div className="min-h-screen px-8 py-6">
           <div className="container mx-auto my-12 px-4 md:px-12 ">
             <div className="-mx-1 flex flex-wrap lg:-mx-4 ">
-              {challenges.map((challenge, i) => (
+              {challenges?.map((challenge, i) => (
                 <div
                   key={i}
                   className="my-1 w-full px-1 md:w-1/2 lg:my-4 lg:w-1/3 lg:px-4"
@@ -53,10 +53,17 @@ export default function Home(
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getSession(context);
+  if (!session?.user) {
+    return {
+      props: {},
+    };
+  }
+
   const ssg = createServerSideHelpers({
     router: appRouter,
     ctx: createInnerTRPCContext({
-      session: await getSession(context),
+      session: session,
     }),
   });
 
