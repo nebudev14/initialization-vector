@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, teacherProcedure } from "~/server/api/trpc";
+import { AES } from "crypto-ts";
 
 export const teacherRouter = createTRPCRouter({
   createChallenge: teacherProcedure
@@ -9,7 +10,7 @@ export const teacherRouter = createTRPCRouter({
         data: {
           name: input.name,
           desc: input.desc,
-          flag: input.flag,
+          flag: AES.encrypt(input.flag, process.env.AES_KEY as string).toString(),
           url: input.url,
         },
       });
@@ -25,4 +26,6 @@ export const teacherRouter = createTRPCRouter({
       },
     });
   }),
+
+
 });
