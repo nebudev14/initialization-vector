@@ -26,4 +26,11 @@ export const challengeRouter = createTRPCRouter({
 
       return challenge;
     }),
+
+  acceptSubmission: authProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      
+    })
+
 });

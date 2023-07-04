@@ -15,17 +15,24 @@ export default async function submitFlag(
   }
 
   const challenges = await prisma.challenge.findMany();
-  const flags = challenges.map((challenge) =>
-    AES.decrypt(
-      challenge.flag as string,
-      process.env.AES_KEY as string
-    ).toString(utf8)
+  const completedChallenge = challenges.find(
+    (e) =>
+      flag ===
+      AES.decrypt(e.flag as string, process.env.AES_KEY as string).toString(
+        utf8
+      )
   );
 
-  if (!flags.includes(flag)) {
+  if (!completedChallenge) {
     res.status(500).json({ msg: "Invalid flag" });
     return;
   }
+
+  const submissionLink = await prisma.submitChallenge.create({
+    data: {
+      challengeId: completedChallenge.id,
+    },
+  });
 
   res.status(200).json({ msg: "success" });
 }
