@@ -60,6 +60,7 @@ export default function AdminPage(
                     autoComplete="off"
                     placeholder="Lab Name"
                     id="labName"
+                    required
                   />
                   <textarea
                     className="mb-6 w-full rounded-xl bg-zinc-700 px-4 py-3 text-xl text-zinc-200 outline-none"
@@ -73,12 +74,14 @@ export default function AdminPage(
                     autoComplete="off"
                     placeholder="GitHub ipynb URL"
                     id="url"
+                    required
                   />
                   <input
                     className="mb-6 w-full rounded-xl bg-zinc-700 px-3 py-2 text-lg text-zinc-200 outline-none"
                     autoComplete="off"
                     placeholder="Flag"
                     id="flag"
+                    required
                   />
                   <button className="mb-2 rounded-xl bg-yellow-300 px-3 py-2 font-semibold text-black">
                     Create
@@ -99,7 +102,7 @@ export default function AdminPage(
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const ssg = createServerSideHelpers({
     router: appRouter,
-    ctx: await createInnerTRPCContext({
+    ctx: createInnerTRPCContext({
       session: await getSession(context),
     }),
   });
