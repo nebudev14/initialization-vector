@@ -8,7 +8,6 @@ import { getSession, useSession } from "next-auth/react";
 import { UnsignedHome } from "~/components/UnsignedHome";
 import { appRouter } from "~/server/api/root";
 import { createInnerTRPCContext } from "~/server/api/trpc";
-import { api } from "~/utils/api";
 
 export default function Home(
   props: InferGetServerSidePropsType<typeof getServerSideProps>
