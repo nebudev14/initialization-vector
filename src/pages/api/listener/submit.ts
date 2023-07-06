@@ -10,7 +10,7 @@ export default async function submitFlag(
   const flag = req.body.flag as string;
 
   if (!flag.startsWith("embsec{")) {
-    res.status(500).json({ msg: "Invalid flag" });
+    res.status(500).json({ Msg: "Invalid flag" });
     return;
   }
 
@@ -24,7 +24,7 @@ export default async function submitFlag(
   );
 
   if (!completedChallenge) {
-    res.status(500).json({ msg: "Invalid flag" });
+    res.status(500).json({ Msg: "Invalid flag" });
     return;
   }
 
@@ -34,5 +34,5 @@ export default async function submitFlag(
     },
   });
 
-  res.status(200).json({ msg: (process.env.URL as string) + "/submit/" + submissionLink.id });
+  res.status(200).json({ Msg: (process.env.URL as string) + "/submit/" + submissionLink.id });
 }
