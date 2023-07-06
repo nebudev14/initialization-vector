@@ -74,8 +74,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     }),
   });
 
-  let user = await ssg.user.getUser.fetch();
-  let challenges = await ssg.challenges.getAll.fetch();
+  const user = await ssg.user.getUser.fetch();
+  const challenges = await ssg.challenges.getAll.fetch();
 
   return {
     props: {

@@ -10,6 +10,17 @@ export const challengeRouter = createTRPCRouter({
     return ctx.prisma.challenge.findMany();
   }),
 
+  getChallengeBySubmission: authProcedure
+    .input(z.object({ subId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      return await ctx.prisma.submitChallenge.findUnique({
+        where: { id: input.subId },
+        include: {
+          Challenge: true
+        }
+      })
+    }),
+
   acceptSubmission: authProcedure
     .input(z.object({ submissionId: z.string() }))
     .mutation(async ({ ctx, input }) => {
