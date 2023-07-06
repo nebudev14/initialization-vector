@@ -5,13 +5,15 @@ import { createInnerTRPCContext } from "~/server/api/trpc";
 import { getSession } from "next-auth/react";
 import { Tab } from "@headlessui/react";
 import { api } from "~/utils/api";
+import Image from "next/image";
 
 export default function AdminPage(
   props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) {
-  const tabs = ["Create", "Students"];
+  const tabs = ["Create", "Members"];
 
   const mutateChallenge = api.teacher.createChallenge.useMutation();
+  const { members } = props;
 
   const submit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -96,7 +98,35 @@ export default function AdminPage(
             </div>
           </Tab.Panel>
           <Tab.Panel>
-            <div>ball 2</div>
+            <div className="flex flex-col px-32 py-8">
+              {members.map((member, i) => (
+                <div
+                  key={i}
+                  className="flex items-center justify-start border-b-2 border-zinc-600 px-6 py-6"
+                >
+                  <Image
+                    src={member.image as string}
+                    alt={member.name as string}
+                    width={45}
+                    height={45}
+                    className="rounded-full"
+                  />
+                  <h1 className="ml-8 font-inter text-2xl font-semibold">
+                    {member.name}
+                  </h1>
+                  <h1 className="ml-10 mr-auto font-inter text-lg">
+                    {member.email}
+                  </h1>
+                  {member.userType === "TEACHER" || member.verified ? (
+                    <h1 className="px-4">{member.userType}</h1>
+                  ) : (
+                    <button className="rounded-lg bg-green-600 duration-200 hover:bg-green-500 px-6 py-2 text-lg">
+                      Verify
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
@@ -112,11 +142,11 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     }),
   });
 
-  let students = await ssg.teacher.getStudents.fetch();
+  let members = await ssg.user.getUsers.fetch();
 
   return {
     props: {
-      students: students,
+      members: members,
     },
   };
 }

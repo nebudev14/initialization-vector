@@ -10,6 +10,18 @@ export const userRouter = createTRPCRouter({
     return ctx.prisma.user.findUnique({ where: { id: ctx.session.user.id } })
   }),
 
+  getUsers: authProcedure.query(async ({ ctx }) => {
+    return ctx.prisma.user.findMany({
+      include: {
+        challenges: {
+          include: {
+            challenge: true
+          }
+        }
+      }
+    })
+  }),
+
   verifyUser: teacherProcedure
     .input(z.object({ uid: z.string() }))
     .mutation(async ({ ctx, input }) => {
