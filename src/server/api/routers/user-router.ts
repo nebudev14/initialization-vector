@@ -10,7 +10,7 @@ export const userRouter = createTRPCRouter({
     return ctx.prisma.user.findUnique({ where: { id: ctx.session.user.id } })
   }),
 
-  getUsers: authProcedure.query(async ({ ctx }) => {
+  getUsers: teacherProcedure.query(async ({ ctx }) => {
     return ctx.prisma.user.findMany({
       include: {
         challenges: {
@@ -38,6 +38,20 @@ export const userRouter = createTRPCRouter({
                 }
               })
             }
+          }
+        }
+      })
+    }),
+
+  unverifyUser: teacherProcedure
+    .input(z.object({ uid: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.user.update({
+        where: { id: input.uid },
+        data: {
+          verified: false,
+          challenges: {
+            deleteMany: {}
           }
         }
       })

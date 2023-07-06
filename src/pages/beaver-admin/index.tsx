@@ -7,13 +7,25 @@ import { Tab } from "@headlessui/react";
 import { api } from "~/utils/api";
 import Image from "next/image";
 
-export default function AdminPage(
-  props: InferGetServerSidePropsType<typeof getServerSideProps>
-) {
+export default function AdminPage() {
   const tabs = ["Create", "Members"];
 
   const mutateChallenge = api.teacher.createChallenge.useMutation();
-  const { members } = props;
+  const { data: members } = api.user.getUsers.useQuery();
+
+  const util = api.useContext();
+
+  const verifyMember = api.user.verifyUser.useMutation({
+    onSuccess() {
+      util.user.invalidate();
+    },
+  });
+
+  const unverifyMember = api.user.unverifyUser.useMutation({
+    onSuccess() {
+      util.user.invalidate();
+    },
+  });
 
   const submit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -99,7 +111,7 @@ export default function AdminPage(
           </Tab.Panel>
           <Tab.Panel>
             <div className="flex flex-col px-32 py-8">
-              {members.map((member, i) => (
+              {members?.map((member, i) => (
                 <div
                   key={i}
                   className="flex items-center justify-start border-b-2 border-zinc-600 px-6 py-6"
@@ -114,16 +126,37 @@ export default function AdminPage(
                   <h1 className="ml-8 font-inter text-2xl font-semibold">
                     {member.name}
                   </h1>
-                  <h1 className="ml-10 mr-auto font-inter text-lg">
-                    {member.email}
+                  <h1 className="ml-10 font-inter text-lg">{member.email}</h1>
+                  <h1 className="ml-10 mr-auto text-center text-lg">
+                    {member.userType === "TEACHER" || member.verified
+                      ? member.userType
+                      : "UNVERIFIED"}
                   </h1>
-                  {member.userType === "TEACHER" || member.verified ? (
-                    <h1 className="px-4">{member.userType}</h1>
-                  ) : (
-                    <button className="rounded-lg bg-green-600 duration-200 hover:bg-green-500 px-6 py-2 text-lg">
-                      Verify
-                    </button>
-                  )}
+                  {member.userType === "STUDENT" ? (
+                    member.verified ? (
+                      <button
+                        className="rounded-lg bg-red-600 px-6 py-2 text-lg duration-200 hover:bg-red-500"
+                        onClick={async () => {
+                          await unverifyMember.mutateAsync({
+                            uid: member.id,
+                          });
+                        }}
+                      >
+                        Unverify
+                      </button>
+                    ) : (
+                      <button
+                        className="rounded-lg bg-green-600 px-6 py-2 text-lg duration-200 hover:bg-green-500"
+                        onClick={async () => {
+                          await verifyMember.mutateAsync({
+                            uid: member.id,
+                          });
+                        }}
+                      >
+                        Verify
+                      </button>
+                    )
+                  ) : null}
                 </div>
               ))}
             </div>
@@ -132,21 +165,4 @@ export default function AdminPage(
       </Tab.Group>
     </div>
   );
-}
-
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const ssg = createServerSideHelpers({
-    router: appRouter,
-    ctx: createInnerTRPCContext({
-      session: await getSession(context),
-    }),
-  });
-
-  let members = await ssg.user.getUsers.fetch();
-
-  return {
-    props: {
-      members: members,
-    },
-  };
 }
