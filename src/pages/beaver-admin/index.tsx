@@ -28,6 +28,11 @@ export default function AdminPage(
       url: target.url.value,
       flag: target.flag.value,
     });
+
+    target.labName.value = "";
+    target.desc.value = "";
+    target.url.value = "";
+    target.flag.value = "";
   };
 
   return (
