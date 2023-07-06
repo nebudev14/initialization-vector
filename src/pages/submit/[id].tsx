@@ -12,7 +12,11 @@ export default function SubmitChallenge(
   const router = useRouter();
   const id = router.query.id as string;
 
-  const acceptSubmission = api.challenges.acceptSubmission.useMutation();
+  const acceptSubmission = api.challenges.acceptSubmission.useMutation({
+    onSuccess() {
+      router.push("/");
+    },
+  });
   if (!props.user) signIn();
 
   return (
@@ -20,7 +24,14 @@ export default function SubmitChallenge(
       <h1 className="mb-10 text-4xl font-semibold ">
         {props.challenge?.Challenge?.name}
       </h1>
-      <button className="rounded-lg border border-yellow-400 px-3 py-3  text-xl duration-200 hover:bg-yellow-500">
+      <button
+        onClick={async () => {
+          await acceptSubmission.mutateAsync({
+            submissionId: id,
+          });
+        }}
+        className="rounded-lg border border-yellow-400 px-3 py-3  text-xl duration-200 hover:bg-yellow-500"
+      >
         Submit lab?
       </button>
     </div>
