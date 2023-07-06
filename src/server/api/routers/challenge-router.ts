@@ -10,27 +10,22 @@ export const challengeRouter = createTRPCRouter({
     return ctx.prisma.challenge.findMany();
   }),
 
-  updateStatus: authProcedure
-    .input(z.object({ challengeId: z.string(), flag: z.string() }))
-    .query(async ({ ctx, input }) => {
-      const challenge = await ctx.prisma.challenge.findUnique({
-        where: { id: input.challengeId },
-      });
-
-      if (challenge?.flag !== input.flag) {
-        throw new TRPCError({
-          message: "Invalid Flag",
-          code: "FORBIDDEN",
-        });
-      }
-
-      return challenge;
-    }),
-
   acceptSubmission: authProcedure
-    .input(z.object({ id: z.string() }))
+    .input(z.object({ submissionId: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      
+      const submission = await ctx.prisma.submitChallenge.delete({ where: { id: input.submissionId } })
+
+      return await ctx.prisma.userChallenge.update({
+        where: {
+          userId_challengeId: {
+            userId: ctx.session.user.id,
+            challengeId: submission?.challengeId as string
+          }
+        },
+        data: {
+          status: "COMPLETED",
+        }
+      });
     })
 
 });

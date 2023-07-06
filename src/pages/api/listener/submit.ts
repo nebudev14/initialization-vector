@@ -34,5 +34,5 @@ export default async function submitFlag(
     },
   });
 
-  res.status(200).json({ msg: "success" });
+  res.status(200).json({ msg: (process.env.URL as string) + "/submit/" + submissionLink.id });
 }
