@@ -2,7 +2,8 @@ import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import {
   createTRPCRouter,
-  authProcedure
+  authProcedure,
+  verifiedProcedure
 } from "~/server/api/trpc";
 
 export const challengeRouter = createTRPCRouter({
@@ -21,7 +22,7 @@ export const challengeRouter = createTRPCRouter({
       })
     }),
 
-  acceptSubmission: authProcedure
+  acceptSubmission: verifiedProcedure
     .input(z.object({ submissionId: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const submission = await ctx.prisma.submitChallenge.delete({ where: { id: input.submissionId } })

@@ -65,7 +65,7 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
 });
 
 // Check if request is by a teacher
-export const isTeacher = t.middleware(async ({ ctx, next }) => {
+ const isTeacher = t.middleware(async ({ ctx, next }) => {
 
   const fetchedUser = await ctx.prisma.user.findUnique({
     where: { id: ctx.session?.user.id as string }
@@ -79,8 +79,26 @@ export const isTeacher = t.middleware(async ({ ctx, next }) => {
   }
 
   return next({ ctx: { result: fetchedUser } });
-
 })
+
+// Check if request is by a verified student
+const isVerified = t.middleware(async ({ ctx, next }) => {
+
+  const fetchedUser = await ctx.prisma.user.findUnique({
+    where: { id: ctx.session?.user.id as string }
+  });
+
+  if (!fetchedUser || !fetchedUser.verified) {
+    throw new TRPCError({
+      message: "You are not verified",
+      code: "FORBIDDEN"
+    });
+  }
+
+  return next({ ctx: { result: fetchedUser } });
+})
+
 
 export const authProcedure = t.procedure.use(enforceUserIsAuthed);
 export const teacherProcedure = authProcedure.use(isTeacher);
+export const verifiedProcedure = authProcedure.use(isVerified);
