@@ -77,7 +77,6 @@ model Challenge {
   url         String
   users       UserChallenge[]   
   submissions SubmitChallenge[]
-  createdAt   DateTime          @default(now())
 }
 
 model SubmitChallenge {

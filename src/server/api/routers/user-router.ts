@@ -2,7 +2,8 @@ import { z } from "zod";
 import {
   createTRPCRouter,
   authProcedure,
-  teacherProcedure
+  teacherProcedure,
+  verifiedProcedure
 } from "~/server/api/trpc";
 
 export const userRouter = createTRPCRouter({
@@ -11,7 +12,7 @@ export const userRouter = createTRPCRouter({
   }),
 
   getUsers: teacherProcedure.query(async ({ ctx }) => {
-    return ctx.prisma.user.findMany({
+    return await ctx.prisma.user.findMany({
       include: {
         challenges: {
           include: {
@@ -22,10 +23,19 @@ export const userRouter = createTRPCRouter({
     })
   }),
 
+  getUserChallenges: verifiedProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.userChallenge.findMany({
+      where: { userId: ctx.session.user.id },
+      include: {
+        challenge: true
+      }
+    })
+  }),
+
   verifyUser: teacherProcedure
     .input(z.object({ uid: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.user.update({
+      return await ctx.prisma.user.update({
         where: { id: input.uid },
         data: {
           verified: true,
@@ -46,7 +56,7 @@ export const userRouter = createTRPCRouter({
   unverifyUser: teacherProcedure
     .input(z.object({ uid: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.user.update({
+      return await ctx.prisma.user.update({
         where: { id: input.uid },
         data: {
           verified: false,
