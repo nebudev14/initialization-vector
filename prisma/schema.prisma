@@ -62,8 +62,8 @@ model VerificationToken {
 model UserChallenge {
   userId      String
   challengeId String
-  user        User            @relation(fields: [userId], references: [id])
-  challenge   Challenge       @relation(fields: [challengeId], references: [id])
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  challenge   Challenge       @relation(fields: [challengeId], references: [id], onDelete: Cascade)
   status      ChallengeStatus
 
   @@id([userId, challengeId])
@@ -75,14 +75,15 @@ model Challenge {
   desc        String
   flag        String            @unique
   url         String
-  users       UserChallenge[]
+  users       UserChallenge[]   
   submissions SubmitChallenge[]
+  createdAt   DateTime          @default(now())
 }
 
 model SubmitChallenge {
   id String @id @default(cuid())
 
-  Challenge   Challenge? @relation(fields: [challengeId], references: [id])
+  Challenge   Challenge? @relation(fields: [challengeId], references: [id], onDelete: Cascade)
   challengeId String?
 }
 
