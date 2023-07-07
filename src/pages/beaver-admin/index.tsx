@@ -40,7 +40,7 @@ export default function AdminPage() {
       name: target.labName.value,
       desc: target.desc.value,
       url: target.url.value,
-      flag: target.flag.value,
+      flag: target.flag.value.replaceAll(" ", ""),
     });
 
     target.labName.value = "";
