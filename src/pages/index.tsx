@@ -36,6 +36,7 @@ export default function Home(
                           name={challenge.challenge.name}
                           desc={challenge.challenge.desc}
                           status={challenge.status}
+                          link={challenge.challenge.url}
                           key={i}
                         />
                       ))}
