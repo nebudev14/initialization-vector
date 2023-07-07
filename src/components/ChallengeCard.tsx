@@ -10,8 +10,8 @@ export const ChallengeCard: React.FC<{
   return (
     <div className="my-1 w-full px-1 md:w-1/2 lg:my-4 lg:w-1/3 lg:px-4">
       <article className="overflow-hidden rounded-2xl border border-zinc-800 shadow-xl ">
-        <div className="border-b border-yellow-300 bg-slate-900  px-4 py-6 pb-28">
-          <h1 className="font-inte mb-2 block h-auto w-full  text-3xl font-semibold">
+        <div className="border-b border-yellow-300 bg-slate-900  px-4 py-6 pb-16">
+          <h1 className="font-inte mb-4 block h-auto w-full  text-3xl font-semibold">
             {name}
           </h1>
           <p>{desc}</p>
@@ -22,7 +22,7 @@ export const ChallengeCard: React.FC<{
             {status === "COMPLETED" ? (
               <div className="flex items-center">
                 <AiOutlineCheckCircle
-                  size={20}
+                  size={25}
                   className="mr-3 inline-block text-green-400"
                 />
                 <h1 className="text-lg">Completed</h1>
