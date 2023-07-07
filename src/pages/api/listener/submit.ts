@@ -7,12 +7,13 @@ export default async function submitFlag(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const flag = req.body.flag as string;
+  const flag = (req.body.flag as string).replace("\n", "");
 
   if (!flag.startsWith("embsec{")) {
-    res.status(500).json({ Msg: "Invalid flag" });
+    res.status(500).json({ Msg: "Invalid flag\n" });
     return;
   }
+
 
   const challenges = await prisma.challenge.findMany();
   const completedChallenge = challenges.find(
@@ -24,7 +25,7 @@ export default async function submitFlag(
   );
 
   if (!completedChallenge) {
-    res.status(500).json({ Msg: "Invalid flag" });
+    res.status(500).json({ Msg: "Invalid flag\n" });
     return;
   }
 
@@ -34,5 +35,5 @@ export default async function submitFlag(
     },
   });
 
-  res.status(200).json({ Msg: (process.env.URL as string) + "/submit/" + submissionLink.id });
+  res.status(200).json({ Msg: (process.env.URL as string) + "/submit/" + submissionLink.id + "\n" });
 }
