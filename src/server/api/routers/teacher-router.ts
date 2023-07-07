@@ -14,7 +14,7 @@ export const teacherRouter = createTRPCRouter({
           url: input.url,
           users: {
             createMany: {
-              data: (await ctx.prisma.user.findMany()).filter(user => user.userType === "STUDENT").map((user) => {
+              data: (await ctx.prisma.user.findMany()).filter(user => (user.userType === "STUDENT" && user.verified)).map((user) => {
                 return {
                   status: "UNCOMPLETE",
                   userId: user.id as string

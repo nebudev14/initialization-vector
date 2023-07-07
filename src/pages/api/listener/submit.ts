@@ -14,7 +14,6 @@ export default async function submitFlag(
     return;
   }
 
-
   const challenges = await prisma.challenge.findMany();
   const completedChallenge = challenges.find(
     (e) =>
