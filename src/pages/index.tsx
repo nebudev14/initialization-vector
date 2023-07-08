@@ -12,8 +12,10 @@ import { ChallengeCard } from "~/components/ChallengeCard";
 export default function Home(
   props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) {
-  const { user, challenges } = props;
+  const { user, userChallenges, challenges } = props;
   const router = useRouter();
+
+  const isTeacher = user?.userType === "TEACHER";
 
   return (
     <>
@@ -21,7 +23,7 @@ export default function Home(
         <UnsignedHome />
       ) : (
         <div>
-          {user?.verified || user?.userType === "TEACHER" ? (
+          {user?.verified || isTeacher ? (
             <>
               <div className="flex min-h-screen">
                 <div className="w-8/9  container mx-auto my-12">
@@ -31,15 +33,28 @@ export default function Home(
                   </h1>
                   <div className=" px-8 py-6 md:px-12 ">
                     <div className="-mx-1 flex flex-wrap lg:-mx-4 ">
-                      {challenges?.map((challenge, i) => (
-                        <ChallengeCard
-                          name={challenge.challenge.name}
-                          desc={challenge.challenge.desc}
-                          status={challenge.status}
-                          link={challenge.challenge.url}
-                          key={i}
-                        />
-                      ))}
+                      {isTeacher ? (
+                        <>
+                          {challenges?.map((challenge, i) => (
+                            <ChallengeCard
+                              challenge={challenge}
+                              isTeacher={isTeacher}
+                              key={i}
+                            />
+                          ))}
+                        </>
+                      ) : (
+                        <>
+                          {userChallenges?.map((userChallenge, i) => (
+                            <ChallengeCard
+                              challenge={userChallenge.challenge}
+                              isTeacher={isTeacher}
+                              status={userChallenge.status}
+                              key={i}
+                            />
+                          ))}
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -106,11 +121,13 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   });
 
   const user = await ssg.user.getUser.fetch();
-  const challenges = await ssg.user.getUserChallenges.fetch();
+  const userChallenges = await ssg.user.getUserChallenges.fetch();
+  const challenges = await ssg.challenges.getAll.fetch();
 
   return {
     props: {
       user: user,
+      userChallenges: userChallenges,
       challenges: challenges,
     },
   };

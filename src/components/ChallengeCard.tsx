@@ -1,23 +1,22 @@
-import { ChallengeStatus } from "@prisma/client";
+import { Challenge, ChallengeStatus } from "@prisma/client";
 import Link from "next/link";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import { ImCross } from "react-icons/im";
 
 export const ChallengeCard: React.FC<{
-  name: string;
-  desc: string;
-  status: ChallengeStatus;
-  link: string;
-}> = ({ name, desc, status, link }) => {
+  challenge: Challenge,
+  isTeacher: boolean,
+  status?: ChallengeStatus
+}> = ({ challenge, isTeacher }) => {
   return (
     <div className="my-1 w-full px-1 hover:cursor-pointer md:w-1/2 lg:my-4 lg:w-1/3 lg:px-4">
-      <Link href={link} passHref>
+      <Link href={challenge.url} passHref>
         <article className="overflow-hidden rounded-2xl border border-zinc-800 shadow-xl ">
           <div className="border-b border-yellow-300 bg-slate-900  px-4 py-6 pb-16">
             <h1 className="font-inte mb-4 block h-auto w-full  text-3xl font-semibold">
-              {name}
+              {challenge.name}
             </h1>
-            <p>{desc}</p>
+            <p>{challenge.desc}</p>
           </div>
 
           <header className="flex items-center justify-between bg-zinc-800 p-2 leading-tight md:p-4">
