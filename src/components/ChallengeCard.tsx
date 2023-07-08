@@ -1,13 +1,15 @@
-import { Challenge, ChallengeStatus } from "@prisma/client";
+import { Challenge, ChallengeStatus, UserChallenge } from "@prisma/client";
 import Link from "next/link";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import { ImCross } from "react-icons/im";
+import { BsPeopleFill } from "react-icons/bs";
 
 export const ChallengeCard: React.FC<{
-  challenge: Challenge,
-  isTeacher: boolean,
-  status?: ChallengeStatus
-}> = ({ challenge, isTeacher }) => {
+  challenge: Challenge;
+  isTeacher: boolean;
+  status?: ChallengeStatus;
+  students?: UserChallenge[];
+}> = ({ challenge, isTeacher, status, students }) => {
   return (
     <div className="my-1 w-full px-1 hover:cursor-pointer md:w-1/2 lg:my-4 lg:w-1/3 lg:px-4">
       <Link href={challenge.url} passHref>
@@ -21,22 +23,39 @@ export const ChallengeCard: React.FC<{
 
           <header className="flex items-center justify-between bg-zinc-800 p-2 leading-tight md:p-4">
             <div className="no-underline">
-              {status === "COMPLETED" ? (
-                <div className="flex items-center">
-                  <AiOutlineCheckCircle
-                    size={25}
-                    className="mr-3 inline-block text-green-400"
-                  />
-                  <h1 className="text-lg">Completed</h1>
-                </div>
+              {isTeacher ? (
+                <>
+                  <div className="flex items-center text-xl">
+                    <BsPeopleFill size={30} className="mr-3" />
+                    {
+                      students?.filter(
+                        (student) => student.status === "COMPLETED"
+                      ).length
+                    }
+                    /{students?.length} completed
+                  </div>
+                </>
               ) : (
-                <div className="flex items-center">
-                  <ImCross
-                    size={20}
-                    className="mr-3 inline-block text-red-500"
-                  />
-                  <h1 className="text-lg">Incomplete</h1>
-                </div>
+                <>
+                  {" "}
+                  {status === "COMPLETED" ? (
+                    <div className="flex items-center">
+                      <AiOutlineCheckCircle
+                        size={25}
+                        className="mr-3 inline-block text-green-400"
+                      />
+                      <h1 className="text-lg">Completed</h1>
+                    </div>
+                  ) : (
+                    <div className="flex items-center">
+                      <ImCross
+                        size={20}
+                        className="mr-3 inline-block text-red-500"
+                      />
+                      <h1 className="text-lg">Incomplete</h1>
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </header>

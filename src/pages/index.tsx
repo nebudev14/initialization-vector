@@ -39,6 +39,7 @@ export default function Home(
                             <ChallengeCard
                               challenge={challenge}
                               isTeacher={isTeacher}
+                              students={challenge.users}
                               key={i}
                             />
                           ))}
