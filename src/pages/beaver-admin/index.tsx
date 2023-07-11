@@ -109,8 +109,8 @@ export default function AdminPage() {
                   className="flex items-center justify-start border-b-2 border-zinc-600 px-6 py-6"
                 >
                   <Image
-                    src={member.image as string}
-                    alt={member.name as string}
+                    src={member?.image as string}
+                    alt={member?.name as string}
                     width={45}
                     height={45}
                     className="rounded-full"
