@@ -26,7 +26,7 @@ export const teacherRouter = createTRPCRouter({
       });
 
       return challenge;
-    }),
+    }), // ts-ignore @typescript-eslint/no-unnecessary-type-assertion
 
   getStudents: teacherProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.user.findMany({

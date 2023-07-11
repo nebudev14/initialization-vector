@@ -17,7 +17,7 @@ export const UnsignedHome: React.FC = () => {
       </p>
       <button
         className="rounded-lg border-2 border-yellow-400 px-6 py-3 text-2xl font-semibold"
-        onClick={() => signIn()}
+        onClick={() => { return signIn() }}
       >
         Sign In
       </button>

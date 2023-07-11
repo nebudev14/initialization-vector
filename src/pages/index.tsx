@@ -77,14 +77,14 @@ export default function Home(
                   </div>
                   {user.userType === "TEACHER" ? (
                     <div
-                      onClick={() => router.push("/beaver-admin")}
+                      onClick={async () => await router.push("/beaver-admin")}
                       className="w-full bg-yellow-500 py-3 text-center duration-200 hover:cursor-pointer hover:bg-yellow-600"
                     >
                       <h1 className="text-xl text-gray-100">Admin Portal</h1>
                     </div>
                   ) : null}
                   <div
-                    onClick={() => signOut()}
+                    onClick={async () => await signOut()}
                     className="w-full bg-red-500 py-3 text-center duration-200 hover:cursor-pointer hover:bg-red-600"
                   >
                     <h1 className="text-xl text-gray-100">Sign Out</h1>
