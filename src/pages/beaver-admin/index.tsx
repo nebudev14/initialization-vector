@@ -32,20 +32,19 @@ export default function AdminPage() {
     const target = e.target as typeof e.target & {
       labName: { value: string };
       desc: { value: string };
-      url: { value: string };
       flag: { value: string };
     };
 
     await mutateChallenge.mutateAsync({
       name: target.labName.value,
       desc: target.desc.value,
-      url: target.url.value,
+      url: "",
       flag: target.flag.value.replaceAll(" ", ""),
     });
 
     target.labName.value = "";
     target.desc.value = "";
-    target.url.value = "";
+
     target.flag.value = "";
   };
 
@@ -87,13 +86,6 @@ export default function AdminPage() {
                     autoComplete="off"
                     placeholder="Description..."
                     id="desc"
-                  />
-                  <input
-                    className="mb-6 w-full rounded-xl bg-zinc-700 px-3 py-2 text-lg text-zinc-200 outline-none"
-                    autoComplete="off"
-                    placeholder="GitHub ipynb URL"
-                    id="url"
-                    required
                   />
                   <input
                     className="mb-6 w-full rounded-xl bg-zinc-700 px-3 py-2 text-lg text-zinc-200 outline-none"

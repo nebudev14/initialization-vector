@@ -74,7 +74,7 @@ model Challenge {
   name        String
   desc        String
   flag        String            @unique
-  url         String
+  url         String?
   users       UserChallenge[]   
   submissions SubmitChallenge[]
 }
