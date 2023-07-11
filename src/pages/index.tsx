@@ -17,6 +17,8 @@ export default function Home(
 
   const isTeacher = user?.userType === "TEACHER";
 
+  console.log(userChallenges)
+
   return (
     <>
       {!props.user ? (
@@ -26,13 +28,13 @@ export default function Home(
           {user?.verified || isTeacher ? (
             <>
               <div className="flex min-h-screen">
-                <div className="w-8/9  container mx-auto my-12">
+              <div className="container w-4/6 px-4 my-12">
                   <h1 className="pl-12 text-5xl font-bold">
                     <span className="text-yellow-300">I</span>nitialization{" "}
                     <span className="text-yellow-300">V</span>ector
                   </h1>
-                  <div className=" px-8 py-6 md:px-12 ">
-                    <div className="-mx-1 flex flex-wrap lg:-mx-4 ">
+                  <div className="px-8 py-6 md:px-12">
+                    <div className="grid grid-cols-2 gap-12 -mx-1 lg:-mx-4 ">
                       {isTeacher ? (
                         <>
                           {challenges?.map((challenge, i) => (
@@ -59,8 +61,8 @@ export default function Home(
                     </div>
                   </div>
                 </div>
-                <div className=" sticky flex w-1/6 flex-col items-center bg-zinc-800 ">
-                  <div className="mb-12 flex items-center justify-center px-4 py-12">
+                <div className="fixed right-0 flex flex-col items-center w-1/6 h-screen bg-zinc-800 ">
+                  <div className="flex items-center justify-center px-4 py-12 mb-12">
                     <Image
                       src={user.image as string}
                       alt={user.name as string}
@@ -78,14 +80,14 @@ export default function Home(
                   {user.userType === "TEACHER" ? (
                     <div
                       onClick={async () => await router.push("/beaver-admin")}
-                      className="w-full bg-yellow-500 py-3 text-center duration-200 hover:cursor-pointer hover:bg-yellow-600"
+                      className="w-full py-3 text-center duration-200 bg-yellow-500 hover:cursor-pointer hover:bg-yellow-600"
                     >
                       <h1 className="text-xl text-gray-100">Admin Portal</h1>
                     </div>
                   ) : null}
                   <div
                     onClick={async () => await signOut()}
-                    className="w-full bg-red-500 py-3 text-center duration-200 hover:cursor-pointer hover:bg-red-600"
+                    className="w-full py-3 text-center duration-200 bg-red-500 hover:cursor-pointer hover:bg-red-600"
                   >
                     <h1 className="text-xl text-gray-100">Sign Out</h1>
                   </div>
@@ -93,7 +95,7 @@ export default function Home(
               </div>
             </>
           ) : (
-            <div className="flex min-h-screen items-center justify-center">
+            <div className="flex items-center justify-center min-h-screen">
               <h1 className="text-2xl">
                 You are not a verified student! Please contact the instructors
                 on Discord to be verified.
