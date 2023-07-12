@@ -1,11 +1,7 @@
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
-import { createServerSideHelpers } from "@trpc/react-query/server";
-import { appRouter } from "~/server/api/root";
-import { createInnerTRPCContext } from "~/server/api/trpc";
-import { getSession } from "next-auth/react";
 import { Tab } from "@headlessui/react";
 import { api } from "~/utils/api";
 import Image from "next/image";
+import { BiArrowBack } from "react-icons/bi";
 
 export default function AdminPage() {
   const tabs = ["Create", "Members"];
@@ -51,7 +47,7 @@ export default function AdminPage() {
   return (
     <div className="min-h-screen px-8 py-6">
       <Tab.Group>
-        <Tab.List className="mb-16 mt-10 grid grid-cols-2 px-96">
+        <Tab.List className="grid grid-cols-2 mt-10 mb-16 px-96">
           {tabs.map((tab, i) => (
             <Tab
               key={i}
@@ -69,32 +65,32 @@ export default function AdminPage() {
           <Tab.Panel>
             <div className="px-32 py-8 ">
               <form onSubmit={submit}>
-                <div className="rounded-2xl bg-zinc-800 px-8 py-4">
-                  <h1 className="mb-8 border-b border-zinc-400 px-1 py-4 text-3xl font-bold ">
+                <div className="px-8 py-4 rounded-2xl bg-zinc-800">
+                  <h1 className="px-1 py-4 mb-8 text-3xl font-bold border-b border-zinc-400 ">
                     Create an assignment
                   </h1>
                   <input
-                    className="mb-6 w-full rounded-xl bg-zinc-700 px-4 py-3 text-xl text-zinc-200 outline-none"
+                    className="w-full px-4 py-3 mb-6 text-xl outline-none rounded-xl bg-zinc-700 text-zinc-200"
                     autoComplete="off"
                     placeholder="Lab Name"
                     id="labName"
                     required
                   />
                   <textarea
-                    className="mb-6 w-full rounded-xl bg-zinc-700 px-4 py-3 text-xl text-zinc-200 outline-none"
+                    className="w-full px-4 py-3 mb-6 text-xl outline-none rounded-xl bg-zinc-700 text-zinc-200"
                     rows={5}
                     autoComplete="off"
                     placeholder="Description..."
                     id="desc"
                   />
                   <input
-                    className="mb-6 w-full rounded-xl bg-zinc-700 px-3 py-2 text-lg text-zinc-200 outline-none"
+                    className="w-full px-3 py-2 mb-6 text-lg outline-none rounded-xl bg-zinc-700 text-zinc-200"
                     autoComplete="off"
                     placeholder="Flag"
                     id="flag"
                     required
                   />
-                  <button className="mb-2 rounded-xl bg-yellow-300 px-3 py-2 font-semibold text-black">
+                  <button className="px-3 py-2 mb-2 font-semibold text-black bg-yellow-300 rounded-xl">
                     Create
                   </button>
                 </div>
@@ -106,7 +102,7 @@ export default function AdminPage() {
               {members?.map((member, i) => (
                 <div
                   key={i}
-                  className="flex items-center justify-start border-b-2 border-zinc-600 px-6 py-6"
+                  className="flex items-center justify-start px-6 py-6 border-b-2 border-zinc-600"
                 >
                   <Image
                     src={member?.image as string}
@@ -115,11 +111,11 @@ export default function AdminPage() {
                     height={45}
                     className="rounded-full"
                   />
-                  <h1 className="ml-8 font-inter text-2xl font-semibold">
+                  <h1 className="ml-8 text-2xl font-semibold font-inter">
                     {member.name}
                   </h1>
-                  <h1 className="ml-10 font-inter text-lg">{member.email}</h1>
-                  <h1 className="ml-10 mr-auto text-center text-lg">
+                  <h1 className="ml-10 text-lg font-inter">{member.email}</h1>
+                  <h1 className="ml-10 mr-auto text-lg text-center">
                     {member.userType === "TEACHER" || member.verified
                       ? member.userType
                       : "UNVERIFIED"}
@@ -127,7 +123,7 @@ export default function AdminPage() {
                   {member.userType === "STUDENT" ? (
                     member.verified ? (
                       <button
-                        className="rounded-lg bg-red-600 px-6 py-2 text-lg duration-200 hover:bg-red-500"
+                        className="px-6 py-2 text-lg duration-200 bg-red-600 rounded-lg hover:bg-red-500"
                         onClick={async () => {
                           await unverifyMember.mutateAsync({
                             uid: member.id,
@@ -138,7 +134,7 @@ export default function AdminPage() {
                       </button>
                     ) : (
                       <button
-                        className="rounded-lg bg-green-600 px-6 py-2 text-lg duration-200 hover:bg-green-500"
+                        className="px-6 py-2 text-lg duration-200 bg-green-600 rounded-lg hover:bg-green-500"
                         onClick={async () => {
                           await verifyMember.mutateAsync({
                             uid: member.id,

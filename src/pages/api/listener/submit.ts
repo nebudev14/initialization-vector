@@ -6,7 +6,7 @@ const utf8 = require("crypto-ts").enc.Utf8;
 export default async function submitFlag(
   req: NextApiRequest,
   res: NextApiResponse
-) {
+) { 
   const flag = (req.body.flag as string).replace("\n", "");
 
   if (!flag.startsWith("embsec{")) {

@@ -66,13 +66,18 @@ export const teacherRouter = createTRPCRouter({
       });
     }),
 
+  
   getLabStatus: teacherProcedure
   .input(z.object({ labId: z.string() }))
   .query(async ({ ctx, input }) => {
     return await ctx.prisma.challenge.findUnique({
       where: { id: input.labId },
       include: {
-        users: true
+        users: {
+          include: {
+            user :true
+          }
+        }
       }
     })
   })
