@@ -11,7 +11,7 @@ export const ChallengeCard: React.FC<{
   students?: UserChallenge[];
 }> = ({ challenge, isTeacher, status, students }) => {
   return (
-    <div className="w-full px-1 my-8 hover:cursor-pointer ">
+    <div className="w-full px-1 my-8">
       <article className="h-full border shadow-xl rounded-t-2xl border-zinc-800">
         <div className="h-full px-4 py-6 pb-12 border-b border-yellow-300 bg-slate-900">
           <h1 className="block w-full h-auto mb-4 text-3xl font-semibold font-inte">

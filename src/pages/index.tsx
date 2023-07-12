@@ -17,8 +17,6 @@ export default function Home(
 
   const isTeacher = user?.userType === "TEACHER";
 
-  console.log(userChallenges)
-
   return (
     <>
       {!props.user ? (
