@@ -17,7 +17,8 @@ export default function LabPage(
   const { lab } = props;
   const router = useRouter();
   
-
+  const order = Object.values(ChallengeStatus);
+  const sortedUsers = lab?.users.sort((a, b) => order.indexOf(a.status) - order.indexOf(b.status))
 
   return (
     <div className="min-h-screen">
@@ -42,7 +43,7 @@ export default function LabPage(
             /{lab?.users?.length} completed
           </div>
           <div className="flex flex-col items-center justify-center">
-            {lab?.users.map((student, i) => (
+            {sortedUsers?.map((student, i) => (
               <div
                 key={i}
                 className="w-full px-4 py-3 my-2 border-b border-b-zinc-700"
