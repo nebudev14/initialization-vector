@@ -109,7 +109,10 @@ export default function AdminPage() {
               {members?.map((member, i) => (
                 <div
                   key={i}
-                  className="flex items-center justify-start px-6 py-6 border-b-2 border-zinc-600"
+                  onClick={async () =>
+                    await router.push(`/beaver-admin/user/${member.id}`)
+                  }
+                  className="flex items-center justify-start px-6 py-6 duration-200 border-b-2 border-zinc-600 hover:cursor-pointer hover:border-yellow-400"
                 >
                   <Image
                     src={member?.image as string}
@@ -129,16 +132,17 @@ export default function AdminPage() {
                   </h1>
                   {member.userType === "STUDENT" ? (
                     member.verified ? (
-                      <button
-                        className="px-6 py-2 text-lg duration-200 bg-red-600 rounded-lg hover:bg-red-500"
-                        onClick={async () => {
-                          await unverifyMember.mutateAsync({
-                            uid: member.id,
-                          });
-                        }}
-                      >
-                        Unverify
-                      </button>
+                      // <button
+                      //   className="px-6 py-2 text-lg duration-200 bg-red-600 rounded-lg hover:bg-red-500"
+                      //   onClick={async () => {
+                      //     await unverifyMember.mutateAsync({
+                      //       uid: member.id,
+                      //     });
+                      //   }}
+                      // >
+                      //   Unverify
+                      // </button>
+                      <> </>
                     ) : (
                       <button
                         className="px-6 py-2 text-lg duration-200 bg-green-600 rounded-lg hover:bg-green-500"

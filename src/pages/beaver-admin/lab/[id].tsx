@@ -33,7 +33,7 @@ export default function LabPage(
           <BiArrowBack
             size={30}
             className="mb-6 duration-150 hover:cursor-pointer hover:text-yellow-400"
-            onClick={async () => await router.push("/")}
+            onClick={async () => await router.back()}
           />
           <h1 className="mb-2 text-5xl font-bold">{lab?.name}</h1>
           <div className="flex items-center mb-12 text-xl">
