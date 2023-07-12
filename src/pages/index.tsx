@@ -1,12 +1,12 @@
 import { createServerSideHelpers } from "@trpc/react-query/server";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
-import { getSession, signOut, useSession } from "next-auth/react";
+import { getSession, signOut } from "next-auth/react";
 import { UnsignedHome } from "~/components/UnsignedHome";
 import { appRouter } from "~/server/api/root";
 import { createInnerTRPCContext } from "~/server/api/trpc";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/router";
+import { ChallengeStatus } from "@prisma/client";
 import { ChallengeCard } from "~/components/ChallengeCard";
 
 export default function Home(
@@ -17,6 +17,11 @@ export default function Home(
 
   const isTeacher = user?.userType === "TEACHER";
 
+  const order = Object.values(ChallengeStatus);
+  const sortedChallenges = userChallenges?.sort(
+    (a, b) => order.indexOf(b.status) - order.indexOf(a.status)
+  );
+
   return (
     <>
       {!props.user ? (
@@ -26,7 +31,7 @@ export default function Home(
           {user?.verified || isTeacher ? (
             <>
               <div className="flex min-h-screen">
-              <div className="container w-4/6 px-4 my-12">
+                <div className="container w-4/6 px-4 my-12">
                   <h1 className="pl-12 text-5xl font-bold">
                     <span className="text-yellow-300">I</span>nitialization{" "}
                     <span className="text-yellow-300">V</span>ector
@@ -46,7 +51,7 @@ export default function Home(
                         </>
                       ) : (
                         <>
-                          {userChallenges?.map((userChallenge, i) => (
+                          {sortedChallenges?.map((userChallenge, i) => (
                             <ChallengeCard
                               challenge={userChallenge.challenge}
                               isTeacher={isTeacher}

@@ -2,9 +2,11 @@ import { Tab } from "@headlessui/react";
 import { api } from "~/utils/api";
 import Image from "next/image";
 import { BiArrowBack } from "react-icons/bi";
+import { useRouter } from "next/router";
 
 export default function AdminPage() {
   const tabs = ["Create", "Members"];
+  const router = useRouter();
 
   const mutateChallenge = api.teacher.createChallenge.useMutation();
   const { data: members } = api.user.getUsers.useQuery();
@@ -46,6 +48,11 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen px-8 py-6">
+      <BiArrowBack
+        size={30}
+        className="mb-6 duration-150 hover:cursor-pointer hover:text-yellow-400"
+        onClick={async () => await router.push("/")}
+      />
       <Tab.Group>
         <Tab.List className="grid grid-cols-2 mt-10 mb-16 px-96">
           {tabs.map((tab, i) => (

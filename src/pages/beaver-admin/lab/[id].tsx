@@ -16,9 +16,11 @@ export default function LabPage(
 ) {
   const { lab } = props;
   const router = useRouter();
-  
+
   const order = Object.values(ChallengeStatus);
-  const sortedUsers = lab?.users.sort((a, b) => order.indexOf(a.status) - order.indexOf(b.status))
+  const sortedUsers = lab?.users.sort(
+    (a, b) => order.indexOf(a.status) - order.indexOf(b.status)
+  );
 
   return (
     <div className="min-h-screen">
@@ -46,7 +48,10 @@ export default function LabPage(
             {sortedUsers?.map((student, i) => (
               <div
                 key={i}
-                className="w-full px-4 py-3 my-2 border-b border-b-zinc-700"
+                onClick={async () =>
+                  await router.push(`/beaver-admin/user/${student.userId}`)
+                }
+                className="w-full px-4 py-4 my-2 duration-200 border-b border-b-zinc-700 hover:cursor-pointer hover:border-b-yellow-400"
               >
                 <div className="flex items-center">
                   <Image
@@ -104,8 +109,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   });
 
   const labId = context.query?.id as string;
-
   const lab = await ssg.teacher.getLabStatus.fetch({ labId: labId });
+
   return {
     props: {
       user: session.user,
