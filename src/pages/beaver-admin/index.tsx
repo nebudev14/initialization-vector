@@ -5,7 +5,7 @@ import { BiArrowBack } from "react-icons/bi";
 import { useRouter } from "next/router";
 
 export default function AdminPage() {
-  const tabs = ["Create", "Members"];
+  const tabs = ["Members", "Create"];
   const router = useRouter();
 
   const mutateChallenge = api.teacher.createChallenge.useMutation();
@@ -54,7 +54,7 @@ export default function AdminPage() {
         onClick={async () => await router.push("/")}
       />
       <Tab.Group>
-        <Tab.List className="grid grid-cols-2 mt-10 mb-16 px-96">
+        <Tab.List className="mb-16 mt-10 grid grid-cols-2 px-96">
           {tabs.map((tab, i) => (
             <Tab
               key={i}
@@ -70,41 +70,6 @@ export default function AdminPage() {
         </Tab.List>
         <Tab.Panels className="mt-4">
           <Tab.Panel>
-            <div className="px-32 py-8 ">
-              <form onSubmit={submit}>
-                <div className="px-8 py-4 rounded-2xl bg-zinc-800">
-                  <h1 className="px-1 py-4 mb-8 text-3xl font-bold border-b border-zinc-400 ">
-                    Create an assignment
-                  </h1>
-                  <input
-                    className="w-full px-4 py-3 mb-6 text-xl outline-none rounded-xl bg-zinc-700 text-zinc-200"
-                    autoComplete="off"
-                    placeholder="Lab Name"
-                    id="labName"
-                    required
-                  />
-                  <textarea
-                    className="w-full px-4 py-3 mb-6 text-xl outline-none rounded-xl bg-zinc-700 text-zinc-200"
-                    rows={5}
-                    autoComplete="off"
-                    placeholder="Description..."
-                    id="desc"
-                  />
-                  <input
-                    className="w-full px-3 py-2 mb-6 text-lg outline-none rounded-xl bg-zinc-700 text-zinc-200"
-                    autoComplete="off"
-                    placeholder="Flag"
-                    id="flag"
-                    required
-                  />
-                  <button className="px-3 py-2 mb-2 font-semibold text-black bg-yellow-300 rounded-xl">
-                    Create
-                  </button>
-                </div>
-              </form>
-            </div>
-          </Tab.Panel>
-          <Tab.Panel>
             <div className="flex flex-col px-32 py-8">
               {members?.map((member, i) => (
                 <div
@@ -112,7 +77,7 @@ export default function AdminPage() {
                   onClick={async () =>
                     await router.push(`/beaver-admin/user/${member.id}`)
                   }
-                  className="flex items-center justify-start px-6 py-6 duration-200 border-b-2 border-zinc-600 hover:cursor-pointer hover:border-yellow-400"
+                  className="flex items-center justify-start border-b-2 border-zinc-600 px-6 py-6 duration-200 hover:cursor-pointer hover:border-yellow-400"
                 >
                   <Image
                     src={member?.image as string}
@@ -121,11 +86,11 @@ export default function AdminPage() {
                     height={45}
                     className="rounded-full"
                   />
-                  <h1 className="ml-8 text-2xl font-semibold font-inter">
+                  <h1 className="ml-8 font-inter text-2xl font-semibold">
                     {member.name}
                   </h1>
-                  <h1 className="ml-10 text-lg font-inter">{member.email}</h1>
-                  <h1 className="ml-10 mr-auto text-lg text-center">
+                  <h1 className="ml-10 font-inter text-lg">{member.email}</h1>
+                  <h1 className="ml-10 mr-auto text-center text-lg">
                     {member.userType === "TEACHER" || member.verified
                       ? member.userType
                       : "UNVERIFIED"}
@@ -145,7 +110,7 @@ export default function AdminPage() {
                       <> </>
                     ) : (
                       <button
-                        className="px-6 py-2 text-lg duration-200 bg-green-600 rounded-lg hover:bg-green-500"
+                        className="rounded-lg bg-green-600 px-6 py-2 text-lg duration-200 hover:bg-green-500"
                         onClick={async () => {
                           await verifyMember.mutateAsync({
                             uid: member.id,
@@ -158,6 +123,41 @@ export default function AdminPage() {
                   ) : null}
                 </div>
               ))}
+            </div>
+          </Tab.Panel>
+          <Tab.Panel>
+            <div className="px-32 py-8 ">
+              <form onSubmit={submit}>
+                <div className="rounded-2xl bg-zinc-800 px-8 py-4">
+                  <h1 className="mb-8 border-b border-zinc-400 px-1 py-4 text-3xl font-bold ">
+                    Create an assignment
+                  </h1>
+                  <input
+                    className="mb-6 w-full rounded-xl bg-zinc-700 px-4 py-3 text-xl text-zinc-200 outline-none"
+                    autoComplete="off"
+                    placeholder="Lab Name"
+                    id="labName"
+                    required
+                  />
+                  <textarea
+                    className="mb-6 w-full rounded-xl bg-zinc-700 px-4 py-3 text-xl text-zinc-200 outline-none"
+                    rows={5}
+                    autoComplete="off"
+                    placeholder="Description..."
+                    id="desc"
+                  />
+                  <input
+                    className="mb-6 w-full rounded-xl bg-zinc-700 px-3 py-2 text-lg text-zinc-200 outline-none"
+                    autoComplete="off"
+                    placeholder="Flag"
+                    id="flag"
+                    required
+                  />
+                  <button className="mb-2 rounded-xl bg-yellow-300 px-3 py-2 font-semibold text-black">
+                    Create
+                  </button>
+                </div>
+              </form>
             </div>
           </Tab.Panel>
         </Tab.Panels>
