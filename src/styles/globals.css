@@ -8,3 +8,7 @@
 body {
   background-color: rgb(24 24 27);
 }
+
+:root {
+  color-scheme: dark;
+}
