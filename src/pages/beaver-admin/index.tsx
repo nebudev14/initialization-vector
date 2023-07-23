@@ -107,7 +107,7 @@ export default function AdminPage() {
                       // >
                       //   Unverify
                       // </button>
-                      <> </>
+                      <><h1 className="text-2xl">{member.challenges.filter(lab => lab.status === "COMPLETED").length} / {member.challenges.length}</h1></>
                     ) : (
                       <button
                         className="rounded-lg bg-green-600 px-6 py-2 text-lg duration-200 hover:bg-green-500"
