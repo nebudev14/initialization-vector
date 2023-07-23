@@ -25,6 +25,8 @@ export default function AdminPage() {
     },
   });
 
+  members?.sort((a, b) => b.challenges.filter(lab => lab.status === "COMPLETED").length - a.challenges.filter(lab => lab.status === "COMPLETED").length)
+
   const submit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     const target = e.target as typeof e.target & {
