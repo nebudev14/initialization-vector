@@ -6,6 +6,8 @@ import {
   verifiedProcedure
 } from "~/server/api/trpc";
 
+/* Handles mutations and queries for student data */
+
 export const userRouter = createTRPCRouter({
   getUser: authProcedure.query(async ({ ctx }) => {
     return ctx.prisma.user.findUnique({ where: { id: ctx.session.user.id } })

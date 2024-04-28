@@ -59,16 +59,6 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model UserChallenge {
-  userId      String
-  challengeId String
-  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  challenge   Challenge       @relation(fields: [challengeId], references: [id], onDelete: Cascade)
-  status      ChallengeStatus
-
-  @@id([userId, challengeId])
-}
-
 model Challenge {
   id          String            @id @default(cuid())
   name        String
@@ -77,6 +67,16 @@ model Challenge {
   url         String?
   users       UserChallenge[]   
   submissions SubmitChallenge[]
+}
+
+model UserChallenge {
+  userId      String
+  challengeId String
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  challenge   Challenge       @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  status      ChallengeStatus
+
+  @@id([userId, challengeId])
 }
 
 model SubmitChallenge {

@@ -64,7 +64,7 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
   });
 });
 
-// Check if request is by a teacher
+/* Middleware check if request is by a teacher */
  const isTeacher = t.middleware(async ({ ctx, next }) => {
 
   const fetchedUser = await ctx.prisma.user.findUnique({
@@ -73,7 +73,7 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
 
   if (!fetchedUser || fetchedUser.userType !== UserType.TEACHER) {
     throw new TRPCError({
-      message: "You are not a teacher",
+      message: "You are not a teacher. You cannot view this page",
       code: "FORBIDDEN"
     });
   }
@@ -81,7 +81,7 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
   return next({ ctx: { result: fetchedUser } });
 })
 
-// Check if request is by a verified student
+/* Middleware check if request is by a verified student */
 const isVerified = t.middleware(async ({ ctx, next }) => {
 
   const fetchedUser = await ctx.prisma.user.findUnique({
@@ -90,7 +90,7 @@ const isVerified = t.middleware(async ({ ctx, next }) => {
 
   if (!fetchedUser || !fetchedUser.verified) {
     throw new TRPCError({
-      message: "You are not verified",
+      message: "You are not verified. Please ask a member of staff to verify your email!",
       code: "FORBIDDEN"
     });
   }

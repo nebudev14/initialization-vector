@@ -6,6 +6,8 @@ import {
   verifiedProcedure,
 } from "~/server/api/trpc";
 
+/* Handles mutations and queries for assignments */
+
 export const challengeRouter = createTRPCRouter({
   getAll: authProcedure.query(async ({ ctx }) => {
     return ctx.prisma.challenge.findMany({

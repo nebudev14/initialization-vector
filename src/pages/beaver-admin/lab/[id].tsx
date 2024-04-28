@@ -26,7 +26,7 @@ export default function LabPage(
     <div className="min-h-screen">
       {!props.user ? (
         <div className="flex items-center justify-center">
-          <h1 className="text-2xl">sign in bro</h1>
+          <h1 className="text-2xl">You need to sign in to view this page</h1>
         </div>
       ) : (
         <div className="container px-4 pl-16 my-12 ">
