@@ -29,14 +29,14 @@ export default function LabPage(
           <h1 className="text-2xl">You need to sign in to view this page</h1>
         </div>
       ) : (
-        <div className="container px-4 pl-16 my-12 ">
+        <div className="container my-12 px-4 pl-16 ">
           <BiArrowBack
             size={30}
             className="mb-6 duration-150 hover:cursor-pointer hover:text-yellow-400"
             onClick={async () => await router.back()}
           />
           <h1 className="mb-2 text-5xl font-bold">{lab?.name}</h1>
-          <div className="flex items-center mb-12 text-xl">
+          <div className="mb-12 flex items-center text-xl">
             <BsPeopleFill size={30} className="mr-3 text-yellow-400" />
             {
               lab?.users?.filter((student) => student.status === "COMPLETED")
@@ -51,7 +51,7 @@ export default function LabPage(
                 onClick={async () =>
                   await router.push(`/beaver-admin/user/${student.userId}`)
                 }
-                className="w-full px-4 py-4 my-2 duration-200 border-b border-b-zinc-700 hover:cursor-pointer hover:border-b-yellow-400"
+                className="my-2 w-full border-b border-b-zinc-700 px-4 py-4 duration-200 hover:cursor-pointer hover:border-b-yellow-400"
               >
                 <div className="flex items-center">
                   <Image
@@ -61,25 +61,28 @@ export default function LabPage(
                     height={45}
                     className="rounded-full"
                   />
-                  <h1 className="ml-8 text-2xl font-semibold font-inter">
+                  <h1 className="ml-8 font-inter text-2xl font-semibold">
                     {student.user.name}
                   </h1>
-                  <h1 className="ml-10 mr-auto text-lg font-inter">
+                  <h1 className="ml-10 mr-auto font-inter text-lg">
                     {student.user.email}
                   </h1>
                   {student.status === "COMPLETED" ? (
                     <div className="flex items-center">
                       <AiOutlineCheckCircle
                         size={25}
-                        className="inline-block mr-3 text-green-400"
+                        className="mr-3 inline-block text-green-400"
                       />
-                      <h1 className="text-lg">Completed</h1>
+                      <h1 className="text-lg">
+                        Submitted at {student.completedAt?.toLocaleTimeString()},{" "}
+                        {student.completedAt?.toDateString()}
+                      </h1>
                     </div>
                   ) : (
                     <div className="flex items-center">
                       <ImCross
                         size={20}
-                        className="inline-block mr-3 text-red-500"
+                        className="mr-3 inline-block text-red-500"
                       />
                       <h1 className="text-lg">Incomplete</h1>
                     </div>

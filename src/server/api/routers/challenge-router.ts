@@ -42,6 +42,7 @@ export const challengeRouter = createTRPCRouter({
         },
         data: {
           status: "COMPLETED",
+          completedAt: new Date()
         },
       });
     }),

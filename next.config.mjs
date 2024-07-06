@@ -11,6 +11,10 @@ const config = {
     domains: ["lh3.googleusercontent.com", "static.vecteezy.com"],
   },
 
+  experimental: {
+    swcPlugins: [["next-superjson-plugin", {}]],
+  },
+
   /**
    * If you have `experimental: { appDir: true }` set, then you must comment the below `i18n` config
    * out.
@@ -24,7 +28,6 @@ const config = {
   eslint: {
     ignoreDuringBuilds: true
   }
-
 };
 
 export default config;

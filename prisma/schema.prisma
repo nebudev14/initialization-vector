@@ -65,7 +65,7 @@ model Challenge {
   desc        String
   flag        String            @unique
   url         String?
-  users       UserChallenge[]   
+  users       UserChallenge[]
   submissions SubmitChallenge[]
 }
 
@@ -75,6 +75,7 @@ model UserChallenge {
   user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   challenge   Challenge       @relation(fields: [challengeId], references: [id], onDelete: Cascade)
   status      ChallengeStatus
+  completedAt DateTime?
 
   @@id([userId, challengeId])
 }

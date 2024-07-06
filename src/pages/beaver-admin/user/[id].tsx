@@ -34,13 +34,13 @@ export default function UserPage(
           <h1 className="text-2xl">sign in bro</h1>
         </div>
       ) : (
-        <div className="container px-4 pl-16 my-12 ">
+        <div className="container my-12 px-4 pl-16 ">
           <BiArrowBack
             size={30}
             className="mb-6 duration-150 hover:cursor-pointer hover:text-yellow-400"
             onClick={async () => await router.back()}
           />
-          <div className="flex items-center mb-12">
+          <div className="mb-12 flex items-center">
             <Image
               src={student?.image as string}
               alt={student?.name as string}
@@ -57,24 +57,27 @@ export default function UserPage(
                 onClick={async () =>
                   await router.push(`/beaver-admin/lab/${lab.challengeId}`)
                 }
-                className="flex items-center w-full py-4 my-2 duration-200 border-b border-b-zinc-700 hover:cursor-pointer hover:border-b-yellow-400"
+                className="my-2 flex w-full items-center border-b border-b-zinc-700 py-4 duration-200 hover:cursor-pointer hover:border-b-yellow-400"
               >
-                <h1 className="ml-8 mr-auto text-2xl font-semibold font-inter">
+                <h1 className="ml-8 mr-auto font-inter text-2xl font-semibold">
                   {lab.challenge.name}
                 </h1>
                 {lab.status === "COMPLETED" ? (
                   <div className="flex items-center">
                     <AiOutlineCheckCircle
                       size={25}
-                      className="inline-block mr-3 text-green-400"
+                      className="mr-3 inline-block text-green-400"
                     />
-                    <h1 className="text-lg">Completed</h1>
+                    <h1 className="text-lg">
+                      Submitted at {lab.completedAt?.toLocaleTimeString()},{" "}
+                      {lab.completedAt?.toDateString()}
+                    </h1>
                   </div>
                 ) : (
                   <div className="flex items-center">
                     <ImCross
                       size={20}
-                      className="inline-block mr-3 text-red-500"
+                      className="mr-3 inline-block text-red-500"
                     />
                     <h1 className="text-lg">Incomplete</h1>
                   </div>

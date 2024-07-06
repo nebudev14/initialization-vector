@@ -27,6 +27,8 @@ export default async function submitFlag(
       )
   );
 
+  console.log(completedChallenge)
+
   if (!completedChallenge) {
     res.status(500).json({ Msg: "Failed" });
     return;
